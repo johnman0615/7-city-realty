@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../connection';
-import { User } from './user'; // Reference the User model
+import { User } from './User'; // Reference the User model
 
 const Agent = sequelize.define('Agent', {
   agent_id: {
