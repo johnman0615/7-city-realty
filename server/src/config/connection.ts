@@ -1,12 +1,11 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
-// Ensure './models' exists and contains the necessary exports
-import { User, Agent, Property, SavedProperty, PropertyImage } from './models'; // Import models
+import { sequelize, User, Agent, Property, PropertyImage, SavedProperty } from '../models'; // Centralized import
 
 dotenv.config();
 
 // Configuration for Sequelize connection
-const sequelize = new Sequelize(
+const sequelizeInstance = new Sequelize(
   process.env.DB_NAME || 'properties_db',
   process.env.DB_USER || 'your_database_user',
   process.env.DB_PASSWORD || 'your_password',
@@ -20,7 +19,7 @@ const sequelize = new Sequelize(
 // Function to connect to the database
 const connectToDatabase = async () => {
   try {
-    await sequelize.authenticate();
+    await sequelizeInstance.authenticate();
     console.log('Connected to the PostgreSQL database successfully');
   } catch (err) {
     console.error('Error connecting to the database:', (err as Error).message);
@@ -31,7 +30,7 @@ const connectToDatabase = async () => {
 // Sync all models with the database
 const syncDatabase = async () => {
   try {
-    await sequelize.sync({ force: true }); // Set to false for production to avoid dropping tables
+    await sequelizeInstance.sync({ force: true }); // Set to false for production to avoid dropping tables
     console.log('Database synchronized successfully');
   } catch (err) {
     console.error('Error synchronizing the database:', (err as Error).message);
@@ -43,4 +42,4 @@ syncDatabase();
 
 export default sequelize;
 // Export the Sequelize instance and connection function
-export { sequelize, connectToDatabase };
+export { sequelizeInstance as sequelize, connectToDatabase };
