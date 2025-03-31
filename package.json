@@ -1,0 +1,26 @@
+{
+  "name": "7-cities-realty-login",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "concurrently \"npm run dev --workspace=client\" \"npm run dev --workspace=server\"",
+    "build": "npm run build --workspaces",
+    "clean": "npm run clean --workspaces",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "eslint": "^9.23.0",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.4.1"
+  }
+}
