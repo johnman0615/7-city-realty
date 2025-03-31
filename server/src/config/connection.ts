@@ -41,5 +41,6 @@ const syncDatabase = async () => {
 // Call syncDatabase to synchronize the models with the database
 syncDatabase();
 
+export default sequelize;
 // Export the Sequelize instance and connection function
 export { sequelize, connectToDatabase };

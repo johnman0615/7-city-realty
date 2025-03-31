@@ -1,41 +1,41 @@
-import { Router, Request, Response } from 'express';
-import { User } from '../models/user.js';  // Import the User model
-import jwt from 'jsonwebtoken';  // Import the JSON Web Token library
-import bcrypt from 'bcrypt';  // Import the bcrypt library for password hashing
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/User";
+import dotenv from "dotenv";
 
-// Login function to authenticate a user
-export const login = async (req: Request, res: Response) => {
-  const { username, password } = req.body;  // Extract username and password from request body
+dotenv.config();
 
-  // Find the user in the database by username
-  const user = await User.findOne({
-    where: { username },
-  });
+const router = express.Router();
 
-  // If user is not found, send an authentication failed response
-  if (!user) {
-    return res.status(401).json({ message: 'Authentication failed' });
+router.post("/register", async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({ name, email, password: hashedPassword, role });
+
+    res.json(newUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
+});
 
-  // Compare the provided password with the stored hashed password
-  const passwordIsValid = await bcrypt.compare(password, user.password);
-  // If password is invalid, send an authentication failed response
-  if (!passwordIsValid) {
-    return res.status(401).json({ message: 'Authentication failed' });
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET as string);
+    res.json({ token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
+});
 
-  // Get the secret key from environment variables
-  const secretKey = process.env.JWT_SECRET_KEY || '';
-
-  // Generate a JWT token for the authenticated user
-  const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
-  return res.json({ token });  // Send the token as a JSON response
-};
-
-// Create a new router instance
-const router = Router();
-
-// POST /login - Login a user
-router.post('/login', login);  // Define the login route
-
-export default router;  // Export the router instance
+export default router;
