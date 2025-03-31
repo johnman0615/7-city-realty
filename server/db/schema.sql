@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS real_estate_db;
+
+CREATE DATABASE real_estate_db;
+=======
 -- Delete database if exists
 DROP DATABASE IF EXISTS properties_db;
 
