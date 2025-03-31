@@ -22,7 +22,6 @@
   "devDependencies": {
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
-    "@types/classNames": "^2.2.11",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.3",
     "wait-on": "^7.2.0"
