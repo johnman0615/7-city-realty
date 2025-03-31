@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import { UserFactory } from "./user";
-import { AgentFactory } from "./agent";
-import { PropertyFactory } from "./property";
+import { UserFactory } from "./User";
+import { AgentFactory } from "./Agent";
+import { PropertyFactory } from "./Property";
 import { SavedPropertyFactory } from "./savedProperty";
 import { PropertyImageFactory } from "./propertyImage";
 import { sequelize } from "../config/connection"; // Adjust the import path as necessary

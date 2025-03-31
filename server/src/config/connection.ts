@@ -31,7 +31,6 @@ const connectToDatabase = async () => {
 // Sync all models with the database
 const syncDatabase = async () => {
   try {
-    // Sync the database with the models (force: true will drop the tables and recreate them, use with caution in production)
     await sequelize.sync({ force: true }); // Set to false for production to avoid dropping tables
     console.log('Database synchronized successfully');
   } catch (err) {
