@@ -1,46 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import auth from '../utils/auth';
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
-const Navbar = () => {
-  // State to track the login status
-  const [loginCheck, setLoginCheck] = useState(false);
-
-  // Function to check if the user is logged in using auth.loggedIn() method
-  const checkLogin = () => {
-    if (auth.loggedIn()) {
-      setLoginCheck(true);  // Set loginCheck to true if user is logged in
-    }
-  };
-
-  // useEffect hook to run checkLogin() on component mount and when loginCheck state changes
-  useEffect(() => {
-    checkLogin();  // Call checkLogin() function to update loginCheck state
-  }, [loginCheck]);  // Dependency array ensures useEffect runs when loginCheck changes
-
-  return (
-    <div className="display-flex justify-space-between align-center py-2 px-5 mint-green">
-      <h1>
-        Authentication Review
-      </h1>
-      <div>
-        {
-          // Conditional rendering based on loginCheck state
-          !loginCheck ? (
-            // Render login button if user is not logged in
-            <button className="btn" type='button'>
-              <Link to='/login'>Login</Link>
-            </button>
-          ) : (
-            // Render logout button if user is logged in
-            <button className="btn" type='button' onClick={() => {
-              auth.logout();  // Call logout() method from auth utility on button click
-            }}>Logout</button>
-          )
-        }
-      </div>
-    </div>
-  )
+interface NavbarProps {
+  setSelectedCategory: (category: string) => void;
 }
+
+const Navbar: React.FC<NavbarProps> = ({ setSelectedCategory }) => {
+  return (
+    <nav className="flex justify-center mb-6 space-x-6">
+      <Link
+        to="/buy" // Use Link for internal navigation
+        className="text-blue-500 hover:underline"
+        onClick={() => setSelectedCategory("Buy")} // Set category when clicked
+      >
+        Buy
+      </Link>
+      <Link
+        to="/rent"
+        className="text-blue-500 hover:underline"
+        onClick={() => setSelectedCategory("Rent")}
+      >
+        Rent
+      </Link>
+      <Link
+        to="/sell"
+        className="text-blue-500 hover:underline"
+        onClick={() => setSelectedCategory("Sell")}
+      >
+        Sell
+      </Link>
+      <Link
+        to="/"
+        className="text-blue-500 hover:underline"
+        onClick={() => setSelectedCategory("Buy")}
+      >
+        Home
+      </Link>
+    </nav>
+  );
+};
 
 export default Navbar;

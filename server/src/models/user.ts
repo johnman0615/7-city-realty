@@ -1,45 +1,39 @@
+
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/connection.ts";
 
-class User extends Model {
-  public id!: number;
-  public name!: string;
-  public email!: string;
-  public password!: string;
-  public role!: "buyer" | "seller" | "agent";
-}
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../connection'; // Adjust if necessary
 
-User.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    role: {
-      type: DataTypes.ENUM("buyer", "seller", "agent"),
-      allowNull: false,
+
+const User = sequelize.define('User', {
+  user_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING(100),
+    unique: true,
+    allowNull: false,
+  },
+  phone: {
+    type: DataTypes.STRING(20),
+  },
+  user_type: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    validate: {
+      isIn: [['buyer', 'seller', 'agent']],
     },
   },
-  {
-    sequelize,
-    modelName: "User",
-    tableName: "users",
-    timestamps: false,
-  }
-);
+}, {
+  tableName: 'users',
+  timestamps: false, // Disable timestamps if not needed
+});
 
-export default User;
+export { User };
