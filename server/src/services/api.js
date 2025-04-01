@@ -1,9 +1,12 @@
-const express = require('express');
-const { Pool } = require('pg');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const Joi = require('joi');
-require('dotenv').config();
+import express from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import Joi from 'joi';
+import dotenv from 'dotenv';
+import pkg from 'pg';
+const { Pool } = pkg;
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -43,9 +46,26 @@ app.get('/properties', async (req, res) => {
 // GET specific property by ID
 app.get('/properties/:id', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM properties WHERE property_id = $1', [req.params.id]);
-        if (result.rows.length === 0) return res.status(404).json({ message: 'Property not found' });
-        res.json(result.rows[0]);
+        const propertyResult = await pool.query(
+            `SELECT * FROM properties WHERE property_id = $1`,
+            [req.params.id]
+        );
+
+        if (propertyResult.rows.length === 0) {
+            return res.status(404).json({ message: 'Property not found' });
+        }
+
+        const property = propertyResult.rows[0];
+
+        // Fetch associated images
+        const imagesResult = await pool.query(
+            `SELECT image_url FROM property_images WHERE property_id = $1`,
+            [req.params.id]
+        );
+
+        property.images = imagesResult.rows.map((row) => row.image_url);
+
+        res.json(property);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -53,15 +73,56 @@ app.get('/properties/:id', async (req, res) => {
 
 // POST new property listing
 app.post('/properties', async (req, res) => {
+    const client = await pool.connect();
     try {
-        const { description, price, address, city, state, zip_code, property_type, bedrooms, bathrooms, square_feet, agent_id, seller_id, status } = req.body;
-        const result = await pool.query(
-            'INSERT INTO properties (description, price, address, city, state, zip_code, property_type, bedrooms, bathrooms, square_feet, agent_id, seller_id, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+        const {
+            description,
+            price,
+            address,
+            city,
+            state,
+            zip_code,
+            property_type,
+            bedrooms,
+            bathrooms,
+            square_feet,
+            agent_id,
+            seller_id,
+            status,
+            images // Array of image URLs
+        } = req.body;
+
+        await client.query('BEGIN'); // Start transaction
+
+        // Insert the property
+        const propertyResult = await client.query(
+            `INSERT INTO properties 
+            (description, price, address, city, state, zip_code, property_type, bedrooms, bathrooms, square_feet, agent_id, seller_id, status) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) 
+            RETURNING property_id`,
             [description, price, address, city, state, zip_code, property_type, bedrooms, bathrooms, square_feet, agent_id, seller_id, status]
         );
-        res.status(201).json(result.rows[0]);
+
+        const propertyId = propertyResult.rows[0].property_id;
+
+        // Insert images into the property_images table
+        if (images && images.length > 0) {
+            const imageInsertPromises = images.map((imageUrl) =>
+                client.query(
+                    `INSERT INTO property_images (property_id, image_url) VALUES ($1, $2)`,
+                    [propertyId, imageUrl]
+                )
+            );
+            await Promise.all(imageInsertPromises);
+        }
+
+        await client.query('COMMIT'); // Commit transaction
+        res.status(201).json({ message: 'Property created successfully', property_id: propertyId });
     } catch (err) {
+        await client.query('ROLLBACK'); // Rollback transaction on error
         res.status(400).json({ message: err.message });
+    } finally {
+        client.release();
     }
 });
 
