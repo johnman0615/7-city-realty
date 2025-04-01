@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../connection';
-import { Property } from './property';
+import { sequelize } from '../config/connection';
+import { Property } from './Property';
 
 const PropertyImage = sequelize.define('PropertyImage', {
   image_id: {

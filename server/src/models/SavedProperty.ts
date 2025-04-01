@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../connection';
-import { User } from './User';
+import { sequelize } from '../config/connection';
 import { Property } from './Property';
 
 const SavedProperty = sequelize.define('SavedProperty', {
@@ -12,7 +11,7 @@ const SavedProperty = sequelize.define('SavedProperty', {
   user_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: User,
+      model: 'users',
       key: 'user_id',
     },
     onDelete: 'CASCADE',
