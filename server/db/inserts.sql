@@ -34,7 +34,7 @@ VALUES
  (SELECT agent_id FROM agents WHERE agency_name='Brown Realty' LIMIT 1), 
  (SELECT user_id FROM users WHERE email='johndoe@example.com' LIMIT 1), 'available'),
 
-('Home nestled on a desirable corner lot in a friendly community.', 285000.00, '4505 Little River Ln', 'Fort Myers', 'FL', '33905', 'house', 2, 2, 1486, 
+('Home nestled on a desirable corner lot in a friendly community.', 285000.00, 'c', 'Fort Myers', 'FL', '33905', 'house', 2, 2, 1486, 
  (SELECT agent_id FROM agents WHERE agency_name='Johnson & Co. Real Estate' LIMIT 1), 
  (SELECT user_id FROM users WHERE email='janesmith@example.com' LIMIT 1), 'sold'),
 

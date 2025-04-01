@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS real_estate_db;
-
-CREATE DATABASE real_estate_db;
-=======
 -- Delete database if exists
 DROP DATABASE IF EXISTS properties_db;
 
@@ -44,4 +40,11 @@ CREATE TABLE properties (
     agent_id INT REFERENCES agents(agent_id) ON DELETE SET NULL,
     seller_id INT REFERENCES users(user_id) ON DELETE SET NULL,
     status VARCHAR(20) CHECK (status IN ('available', 'sold', 'pending')) DEFAULT 'available'
+);
+
+-- Create Property Images Table
+CREATE TABLE property_images (
+    image_id SERIAL PRIMARY KEY,
+    property_id INT REFERENCES properties(property_id) ON DELETE CASCADE,
+    image_url VARCHAR(255) NOT NULL
 );
