@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
@@ -7,13 +8,12 @@ export default defineConfig({
     port: 3000,
     open: true,
   },
-  build: {
-    outDir: 'dist', // Change this to a directory inside the client workspace
-    emptyOutDir: true, // Ensure the directory is emptied before building
-  },
   resolve: {
     alias: {
-      '@': '/src',
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@styles": path.resolve(__dirname, "./src/styles"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
     },
   },
 });

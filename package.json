@@ -1,5 +1,5 @@
 {
-  "name": "7-cities-realty-login",
+  "name": "website-realty",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,20 +7,33 @@
     "server"
   ],
   "scripts": {
-    "start": "node dist/server.js",
     "dev": "concurrently \"npm run dev --workspace=client\" \"npm run dev --workspace=server\"",
-    "build": "npm run build --workspaces",
-    "clean": "npm run clean --workspaces",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "build": "npm run build --workspace=client && npm run build --workspace=server",
+    "start": "npm run start --workspace=server",
+    "clean": "rimraf client/dist server/dist",
+    "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
+    "test": "npm run test --workspace=client && npm run test --workspace=server"
   },
   "devDependencies": {
     "concurrently": "^8.2.0",
     "eslint": "^9.23.0",
+    "eslint-plugin-react": "^7.37.4",
     "prettier": "^3.5.3",
-    "ts-node": "^10.9.2"
+    "rimraf": "^4.4.1",
+    "tsx": "^4.19.3"
   },
   "dependencies": {
-    "react-router-dom": "^7.4.1"
+    "@react-google-maps/api": "^2.18.1",
+    "bcryptjs": "^3.0.2",
+    "pg": "^8.14.1",
+    "pg-hstore": "^2.3.4"
+  },
+  "overrides": {
+    "rimraf": "^4.4.1",
+    "glob": "^9.3.5",
+    "inflight": "^1.0.6",
+    "npmlog": "^6.0.0",
+    "are-we-there-yet": "^3.0.0",
+    "gauge": "^4.0.0"
   }
 }

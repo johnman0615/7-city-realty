@@ -13,33 +13,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('./assets/realestate login background.webp') no-repeat center center fixed;
+  background: url('/assets/realestate-login-background.webp') no-repeat center center fixed;
   background-size: cover;
   font-family: Arial, sans-serif;
 }
-/* Background image */
-body {
-  background: url('/assets/realestate login background.webp') no-repeat center center fixed;
-  background-size: cover;
-}
+
 /* Logo styling */
 .logo {
-  width: 150px;
-  height: 150px;
-  background: url('/assets/realestate logo.png') no-repeat center center;
-  background-size: contain;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Add spacing below the logo */
+  text-align: center;
 }
+
+.logo img {
+  max-width: 100%; /* Ensure the logo scales properly */
+  height: auto;
+  max-height: 80px; /* Limit the height of the logo */
+}
+
 /* Full-width inputs */
 input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
-  display: inline-block;
-  box-sizing: border-box;
-  border: none; /* No border around the credentials */
-  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 1rem;
   background-color: #f1f1f1; /* Light background for better contrast */
   color: #333; /* Dark text color for readability */
@@ -50,6 +48,7 @@ input[type="text"]:focus,
 input[type="password"]:focus {
   outline: none; /* Remove the default focus outline */
   background-color: #e6e6e6; /* Slightly darker background on focus */
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5); /* Add a subtle glow */
 }
 
 /* Add hover effect for inputs */
@@ -72,7 +71,7 @@ button {
 }
 
 button:hover {
-  background-color: #1597a0;
+  background-color: #0056b3;
   opacity: 0.9;
 }
 
@@ -128,10 +127,8 @@ img.logo {
   border-radius: 10px; /* Rounded corners for the box */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
   width: 300px;
-  height: 500px; /* Fixed height to ensure consistent centering */
   display: flex; /* Enable flexbox */
   flex-direction: column; /* Stack items vertically */
-  justify-content: center; /* Center items vertically */
   align-items: center; /* Center items horizontally */
   text-align: center;
   color: white;
@@ -176,9 +173,9 @@ form {
 
 /* Error message styling */
 .error-message {
-  color: #ff4d4d;
+  color: red;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+  margin-top: 1rem;
   text-align: center;
   height: 20px;
   line-height: 20px;
@@ -240,46 +237,6 @@ span.psw {
   .cancelbtn {
     width: 100%;
   }
-}
-
-/* Home page container */
-.home-container {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: white;
-  background: rgba(0, 0, 0, 0.8);
-  /* Semi-transparent background for better readability */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-/* Welcome message on the home page */
-.home-title {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* Button for navigation */
-.home-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.home-button:hover {
-  background-color: #0056b3;
 }
 
 /* Animation for the login box */

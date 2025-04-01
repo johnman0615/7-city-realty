@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../utils/jwt';
-import jwt from 'jsonwebtoken'; // Add this import
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 export const authMiddleware = (
   req: Request,
@@ -22,11 +23,13 @@ export const authMiddleware = (
   }
 };
 
-export const loginHandler = (req: Request, res: Response) => {
+export const loginHandler = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  // Validate username and password
-  if (username === '7cities' && password === '7cities') {
+  // Replace hardcoded credentials with bcryptjs for password comparison
+  const hashedPassword = await bcrypt.hash('7cities', 10); // Example hashed password
+
+  if (username === '7cities' && (await bcrypt.compare(password, hashedPassword))) {
     const token = jwt.sign({ username }, process.env.SECRET_KEY!, {
       expiresIn: '15m',
     });

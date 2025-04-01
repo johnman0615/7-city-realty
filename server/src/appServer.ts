@@ -1,8 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import authRoutes from './routes/auth';
-import { errorHandler } from './middleware/errorHandler';
+import authRoutes from './routes/authRoutes';
+import { errorHandler } from './middleware/errorHandlerMiddleware';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
