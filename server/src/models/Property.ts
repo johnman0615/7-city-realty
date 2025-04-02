@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../connection';
+import { sequelize } from '../config/connection'; // Ensure this points to your connection file
 import { Agent } from './Agent';
-import { User } from './User';
+// import { User } from './User'; // Import User model to establish the relationship
 
 const Property = sequelize.define('Property', {
   property_id: {
@@ -58,7 +58,7 @@ const Property = sequelize.define('Property', {
   seller_id: {
     type: DataTypes.INTEGER,
     references: {
-      model: User,
+     // model: User,
       key: 'user_id',
     },
     onDelete: 'SET NULL',
