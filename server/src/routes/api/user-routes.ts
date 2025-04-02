@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-import { User } from '../../models/index.js';
+import { User } from '../../models/Index';
 
 const router = express.Router();
 
@@ -51,8 +51,8 @@ router.put('/:id', async (req: Request, res: Response) => {
   try {
     const user = await User.findByPk(id);
     if (user) {
-      user.username = username;
-      user.password = password;
+      if (username) user.username = username; // Safely update username
+      if (password) user.password = password; // Safely update password
       await user.save();
       res.json(user);
     } else {
