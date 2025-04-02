@@ -1,7 +1,12 @@
+import express from 'express';
+import type { Request, Response } from 'express';
+import { User } from '../../models/Index';
+
 import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User";
 import { authenticateJWT } from "../../middleware/auth";
+
 
 const router = express.Router();
 
@@ -53,10 +58,21 @@ router.get("/", authenticateJWT, async (req, res) => {
 
 router.get("/:id", authenticateJWT, async (req, res) => {
   try {
+
+    const user = await User.findByPk(id);
+    if (user) {
+      if (username) user.username = username; // Safely update username
+      if (password) user.password = password; // Safely update password
+      await user.save();
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+
     const userId = req.params.id;
 
     if (req.user.user_id !== parseInt(userId) && req.user.user_type !== "admin") {
       return res.status(403).json({ message: "Unauthorized" });
+
     }
 
     const user = await User.findOne({
