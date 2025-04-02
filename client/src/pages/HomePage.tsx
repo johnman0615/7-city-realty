@@ -1,12 +1,8 @@
 import  { useState, useEffect, useLayoutEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "../components/ui/Card";
+import { Button } from "../components/ui/Buttons";
 import { Link } from "react-router-dom";
-import { retrieveUsers } from "../api/userAPI";
-import type { UserData } from "../interfaces/UserData";
-import ErrorPage from "./ErrorPage";
-import UserList from '../components/Users';
-import auth from '../utils/auth';
+
 import Navbar from "../components/Navbar";
 
 const properties = [
