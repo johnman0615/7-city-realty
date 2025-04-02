@@ -41,3 +41,10 @@ CREATE TABLE properties (
     seller_id INT REFERENCES users(user_id) ON DELETE SET NULL,
     status VARCHAR(20) CHECK (status IN ('available', 'sold', 'pending')) DEFAULT 'available'
 );
+
+-- Create Property Images Table
+CREATE TABLE property_images (
+    image_id SERIAL PRIMARY KEY,
+    property_id INT REFERENCES properties(property_id) ON DELETE CASCADE,
+    image_url VARCHAR(255) NOT NULL
+);

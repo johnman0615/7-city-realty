@@ -2,53 +2,63 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import { User } from '../../models/Index';
 
+import express from "express";
+import bcrypt from "bcryptjs";
+import User from "../models/User";
+import { authenticateJWT } from "../../middleware/auth";
+
+
 const router = express.Router();
 
-// GET /users - Get all users
-router.get('/', async (_req: Request, res: Response) => {
+router.post("/signup", async (req, res) => {
   try {
-    const users = await User.findAll({
-      attributes: { exclude: ['password'] }
-    });
-    res.json(users);
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-});
+    const { name, email, password, user_type, phone } = req.body;
 
-// GET /users/:id - Get a user by id
-router.get('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findByPk(id, {
-      attributes: { exclude: ['password'] }
-    });
-    if (user) {
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'User not found' });
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
     }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      user_type, 
+      phone,
+    });
+
+    res.status(201).json({ 
+      user_id: newUser.user_id, 
+      name: newUser.name, 
+      email: newUser.email, 
+      user_type: newUser.user_type 
+    }); 
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
-// POST /users - Create a new user
-router.post('/', async (req: Request, res: Response) => {
-  const { username, email, password } = req.body;
+router.get("/", authenticateJWT, async (req, res) => {
   try {
-    const newUser = await User.create({ username, email, password });
-    res.status(201).json(newUser);
-  } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    if (req.user.user_type !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    const users = await User.findAll({
+      attributes: ["user_id", "name", "email", "user_type", "phone"],
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
-// PUT /users/:id - Update a user by id
-router.put('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { username, password } = req.body;
+router.get("/:id", authenticateJWT, async (req, res) => {
   try {
+
     const user = await User.findByPk(id);
     if (user) {
       if (username) user.username = username; // Safely update username
@@ -57,26 +67,27 @@ router.put('/:id', async (req: Request, res: Response) => {
       res.json(user);
     } else {
       res.status(404).json({ message: 'User not found' });
+
+    const userId = req.params.id;
+
+    if (req.user.user_id !== parseInt(userId) && req.user.user_type !== "admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+
     }
-  } catch (error: any) {
-    res.status(400).json({ message: error.message });
+
+    const user = await User.findOne({
+      where: { user_id: userId },
+      attributes: ["user_id", "name", "email", "user_type", "phone"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
-// DELETE /users/:id - Delete a user by id
-router.delete('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findByPk(id);
-    if (user) {
-      await user.destroy();
-      res.json({ message: 'User deleted' });
-    } else {
-      res.status(404).json({ message: 'User not found' });
-    }
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-export { router as userRouter };
+export default router;

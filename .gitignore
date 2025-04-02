@@ -13,4 +13,6 @@ dist/
 build/
 # OS-specific files
 .DS_Store
+
+ DS.store
 Thumbs.db
