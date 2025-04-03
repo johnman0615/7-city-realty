@@ -1,16 +1,21 @@
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
+;
+import App from "./App";
+import "./styles/base.css"; 
+import "./styles/shared.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import './index.css';
 
-import App from './App.tsx';
 
-import ErrorPage from './pages/ErrorPage.tsx';
-import Home from './pages/HomePage.tsx';
-import Login from './pages/Login.tsx';
-import RentPage from './pages/RentPage.tsx';
-import BuyPage from './pages/BuyPage.tsx';
-import SellPage from './pages/SellPage.tsx';
-import PropertyDetail from './pages/PropertyDetail.tsx';
+
 
 const router = createBrowserRouter([
   {

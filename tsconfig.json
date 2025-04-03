@@ -7,7 +7,7 @@
 
     /* Modules */
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "Node",
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -31,8 +31,18 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
     "noImplicitOverride": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+
+    /* Path Mapping */
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["client/src/components/shared/*"],
+      "@utils/*": ["client/src/utils/*"],
+      "@components/*": ["client/src/components/*"],
+      "@pages/*": ["client/src/pages/*"],
+      "@styles/*": ["client/src/styles/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["client/src", "server/src", "client/utils"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

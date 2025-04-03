@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Property } from "../models/Property";
+import Property from "../models/Property"; // Adjust the path if necessary
 import { authenticateJWT } from "../middleware/auth";
 
 const router = Router();

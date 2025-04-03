@@ -1,39 +1,35 @@
 {
-  "name": "main",
+  "name": "website-realty",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run client:build && npm run server",
-    "start:dev": "concurrently \"npm run server:dev\" \"wait-on tcp:3001 && npm run client:dev\"",
-    "server": "cd server && npm start",
-    "server:dev": "cd server && npm run dev",
-    "install": "cd server && npm i && cd ../client && npm i",
-    "client:build": "cd client && npm run build",
-    "client:dev": "cd client && npm run dev",
-    "build": "cd server && npm run build",
-    "seed": "cd server && npm run seed",
-    "render-build": "npm install && npm run build"
+    "dev": "concurrently \"npm run dev --workspace=client\" \"npm run dev --workspace=server\"",
+    "build": "npm run build --workspace=client && npm run build --workspace=server",
+    "start": "npm run start --workspace=server",
+    "clean": "rimraf client/dist server/dist",
+    "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
+    "test": "npm run test --workspace=client && npm run test --workspace=server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
-    "concurrently": "^8.2.2",
-    "nodemon": "^3.1.3",
-    "wait-on": "^7.2.0"
+    "concurrently": "^8.2.0",
+    "eslint": "^9.23.0",
+    "eslint-plugin-react": "^7.37.4",
+    "prettier": "^3.5.3",
+    "rimraf": "^4.4.1",
+    "tsx": "^4.19.3"
   },
   "dependencies": {
-    "@react-google-maps/api": "^2.20.6",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
-    "express": "^5.1.0",
-    "joi": "^17.13.3",
-    "jsonwebtoken": "^9.0.2",
+    "@react-google-maps/api": "^2.18.1",
+    "bcryptjs": "^3.0.2",
     "pg": "^8.14.1",
-    "react-router-dom": "^7.4.0"
+    "pg-hstore": "^2.3.4"
+  },
+  "overrides": {
+    "rimraf": "^4.4.1",
+    "glob": "^9.3.5"
   }
 }
