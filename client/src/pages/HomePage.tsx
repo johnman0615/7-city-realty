@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Link } from "react-router-dom";
-import "../styles/buttons.css"; // Corrected relative path for styles
-import "@styles/home.css"; // Added styles from the second file
 import Navbar from "../components/NavbarComponent";
+import "@styles/navbar.css"; // Ensure navbar styles are applied
+import "@styles/home.css"; // Ensure home styles are applied
 
 const properties = [
   {
@@ -73,34 +73,13 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      {/* Navbar */}
       <Navbar setSelectedCategory={setSelectedCategory} />
-
-      {/* Welcome Section */}
       <div className="text-center mb-6">
         <h1 className="home-title">Welcome to 7 Cities Realty</h1>
         <a href="/buy" className="home-button">
           Explore Properties
         </a>
       </div>
-
-      {/* Navigation Links */}
-      <nav className="flex justify-center mb-6 space-x-6">
-        <Link to="/buy" className="btn">
-          Buy
-        </Link>
-        <Link to="/rent" className="btn">
-          Rent
-        </Link>
-        <Link to="/sell" className="btn">
-          Sell
-        </Link>
-        <Link to="/" className="btn">
-          Home
-        </Link>
-      </nav>
-
-      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"
@@ -110,8 +89,6 @@ const HomePage: React.FC = () => {
           className="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-
-      {/* Property Listings */}
       <h1 className="text-3xl font-bold text-center mb-6">Property Listings</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProperties.map((property) => (

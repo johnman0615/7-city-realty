@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/NavbarComponent";
+import "../styles/navbar.css";
 
 interface Property {
   id: number;
@@ -15,15 +16,33 @@ const properties: Property[] = [
   { id: 3, name: "House 3", location: "Location 3", price: 300000, image: "house3.jpg" },
 ];
 
-function BuyPage() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const BuyPage: React.FC = () => {
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   return (
     <div>
-      <Navbar setSelectedCategory={setSelectedCategory} />
-      {/* Page content */}
+      <Navbar setSelectedCategory={() => {}} onLogout={() => {}} />
+      <h1>Buy a Property</h1>
+      <div>
+        <h2>Properties</h2>
+        <ul>
+          {properties.map((property) => (
+            <li key={property.id}>
+              <button onClick={() => setSelectedProperty(property)}>{property.name}</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {selectedProperty && (
+        <div>
+          <h2>{selectedProperty.name}</h2>
+          <p>Location: {selectedProperty.location}</p>
+          <p>Price: ${selectedProperty.price}</p>
+          <img src={`/assets/${selectedProperty.image}`} alt={selectedProperty.name} />
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default BuyPage;

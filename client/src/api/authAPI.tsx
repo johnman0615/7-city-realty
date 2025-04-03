@@ -1,10 +1,8 @@
-// Define the UserLogin interface
 export interface UserLogin {
   username: string;
   password: string;
 }
 
-// Function to send a POST request to the '/auth/login' endpoint with user login information
 const login = async (userInfo: UserLogin) => {
   try {
     const response = await fetch('/auth/login', {
@@ -24,4 +22,4 @@ const login = async (userInfo: UserLogin) => {
   }
 };
 
-export { login };  // Export the login function to be used elsewhere in the application
+export { login };

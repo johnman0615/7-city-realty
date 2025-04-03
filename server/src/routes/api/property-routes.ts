@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import Property from "../../models/Property";
-import authenticateJWT from "../../middleware/authenticateJWT";
+import Property from "../../models/Property.js"; // Add `.js`
+import authenticateJWT from "../../middleware/authenticateJWT.js"; // Add `.js`
 
 const router = express.Router();
 

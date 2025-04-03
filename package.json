@@ -2,23 +2,20 @@
   "name": "7-city-home-realty",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "client",
     "server"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=client\" \"npm run dev --workspace=server\"",
-    "build": "npm run build --workspace=client && npm run build --workspace=server",
-    "start": "npm run start --workspace=server",
-    "clean": "rimraf client/dist server/dist",
-    "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
-    "test": "npm run test --workspace=client && npm run test --workspace=server",
-    "format": "prettier --write ."
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^18.3.20",
+    "@types/react-dom": "^18.3.6",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^8.2.0",
     "eslint": "^9.23.0",
@@ -27,24 +24,24 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "prettier": "^3.5.3",
     "rimraf": "^4.4.1",
-    "typescript": "^5.2.2",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2",
     "vite": "^6.2.4"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
-    "esbuild": "^0.25.2",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.1",
-    "tsx": "^4.19.3"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.14.1"
   },
   "overrides": {
-    "esbuild": "^0.19.2"
+    "esbuild": "^0.19.0"
   }
 }

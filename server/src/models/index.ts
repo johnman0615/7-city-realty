@@ -1,9 +1,9 @@
-import sequelize from '../config/connection';
-import User from './User';
-import Property from './Property';
-import Agent from './Agent';
-import SavedProperty from './SavedProperty';
-import PropertyImage from './PropertyImage';
+import sequelize from "../config/connection.js"; // Add `.js` extension
+import User from "./User.js"; // Add `.js` extension
+import Property from "./Property.js"; // Add `.js` extension
+import Agent from "./Agent.js"; // Add `.js` extension
+import SavedProperty from "./SavedProperty.js"; // Add `.js` extension
+import PropertyImage from "./PropertyImage.js"; // Add `.js` extension
 
 // Define relationships
 User.hasOne(Agent, { foreignKey: 'user_id' });

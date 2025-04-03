@@ -10,7 +10,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MapView from '../components/MapView';
 
-
 // Updated Property interface aligned with the backend model (PropertyFactory)
 // This ensures our frontend and backend data structures are compatible
 interface Property {
@@ -148,31 +147,45 @@ const SimpleImageGallery: React.FC<{images: string[]}> = ({ images }) => {
  * Handles loading states, errors, and rendering the property information
  */
 const PropertyDetail: React.FC = () => {
+  // Extract the property ID from the URL parameters
   const { id } = useParams<{ id: string }>();
-  const [property, setProperty] = useState<Property | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  
+  // State management
+  const [property, setProperty] = useState<Property | null>(null); // Stores the property data
+  const [loading, setLoading] = useState(true); // Tracks if we're currently loading data
+  const [error, setError] = useState<string | null>(null); // Stores any error messages
 
+  /**
+   * Effect hook to fetch property data when the component mounts
+   * or when the property ID changes in the URL
+   */
   useEffect(() => {
     if (id) {
       fetchProperty(id);
     }
   }, [id]);
 
+  /**
+   * Fetches property data and updates the component state
+   * 
+   * @param propertyId - The ID of the property to fetch
+   */
   const fetchProperty = async (propertyId: string) => {
     try {
-      setLoading(true);
-      setError(null);
+      setLoading(true); // Start loading
+      setError(null); // Clear any previous errors
       const data = await getPropertyById(propertyId);
-      setProperty(data);
+      setProperty(data); // Update property state with fetched data
     } catch (error) {
       console.error('Error fetching property:', error);
+      // Store a user-friendly error message
       setError(error instanceof Error ? error.message : 'Failed to fetch property');
     } finally {
-      setLoading(false);
+      setLoading(false); // End loading state regardless of outcome
     }
   };
 
+  // Show loading state while fetching data
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{minHeight: '80vh'}}>
@@ -181,6 +194,7 @@ const PropertyDetail: React.FC = () => {
     );
   }
 
+  // Show error state if something went wrong
   if (error) {
     return (
       <div className="container my-4">
@@ -192,6 +206,7 @@ const PropertyDetail: React.FC = () => {
     );
   }
 
+  // Show not found message if no property data was returned
   if (!property) {
     return (
       <div className="container my-4">
@@ -203,15 +218,19 @@ const PropertyDetail: React.FC = () => {
     );
   }
 
+  // Main render when property data is available
   return (
     <div className="container my-4">
+      {/* Property header with image and basic info */}
       <div className="row gy-4">
+        {/* Left column - Image and title section */}
         <div className="col-lg-6">
           <SimpleImageGallery images={property.photos || []} />
           <div className="mt-3">
             <h1 className="display-6 fw-bold">{property.title || property.address}</h1>
             <p className="fs-4 text-primary fw-bold mt-2">
               ${property.price.toLocaleString()}
+              {/* Show /month for apartment type properties, which are typically rentals */}
               {property.property_type === 'apartment' && '/month'}
             </p>
             <p className="text-muted">
@@ -220,34 +239,43 @@ const PropertyDetail: React.FC = () => {
           </div>
         </div>
 
+        {/* Right column - Property details and map */}
         <div className="col-lg-6">
+          {/* Property details card */}
           <div className="card mb-4">
             <div className="card-body">
               <h5 className="card-title mb-3">Property Details</h5>
               <div className="row g-3">
+                {/* Property type */}
                 <div className="col-6">
                   <p className="text-muted mb-1">Property Type</p>
                   <p className="fw-semibold">
+                    {/* We consider apartments as rental properties */}
                     {property.property_type === 'apartment' ? 'For Rent' : 'For Sale'}
                   </p>
                 </div>
+                {/* Bedrooms */}
                 <div className="col-6">
                   <p className="text-muted mb-1">Bedrooms</p>
                   <p className="fw-semibold">{property.bedrooms || 'N/A'}</p>
                 </div>
+                {/* Bathrooms */}
                 <div className="col-6">
                   <p className="text-muted mb-1">Bathrooms</p>
                   <p className="fw-semibold">{property.bathrooms || 'N/A'}</p>
                 </div>
+                {/* Square footage */}
                 <div className="col-6">
                   <p className="text-muted mb-1">Square Feet</p>
                   <p className="fw-semibold">
                     {property.square_feet ? property.square_feet.toLocaleString() : 'N/A'}
                   </p>
                 </div>
+                {/* Listing status */}
                 <div className="col-6">
                   <p className="text-muted mb-1">Status</p>
                   <p className="fw-semibold">
+                    {/* Capitalize the first letter of status for display */}
                     {property.status.charAt(0).toUpperCase() + property.status.slice(1)}
                   </p>
                 </div>
@@ -255,12 +283,13 @@ const PropertyDetail: React.FC = () => {
             </div>
           </div>
 
+          {/* Location map card */}
           <div className="card">
             <div className="card-body">
               <h5 className="card-title mb-3">Location</h5>
               <div className="rounded overflow-hidden">
                 <MapView
-                  center={property.coordinates || { lat: 40.7128, lng: -74.0060 }}
+                  center={property.coordinates}
                   height="300px"
                 />
               </div>
@@ -272,6 +301,7 @@ const PropertyDetail: React.FC = () => {
         </div>
       </div>
 
+      {/* Description section */}
       <div className="mt-4">
         <h5 className="mb-3">Description</h5>
         <p className="text-muted">{property.description || 'No description available'}</p>

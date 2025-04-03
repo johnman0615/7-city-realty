@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "ES2020",
+    "target": "ES6", // Use ESNext for modern JavaScript features
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "jsx": "react-jsx",
+    "jsx": "react-jsx", // Use "react" if you're using React < 17
 
     /* Modules */
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "ESNext", // Compile as ES Modules
+    "moduleResolution": "node",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    
     "isolatedModules": true,
     "noEmit": true,
 
@@ -33,17 +34,15 @@
     "useUnknownInCatchVariables": true,
 
     /* Path Mapping */
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"]
-    }
+      "@/*": ["client/src/*"]
+    },
+
+    /* Output */
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "include": [
-    "src/**/*",
-    "src/global.d.ts" // Ensure this file is included
-  ],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

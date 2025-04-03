@@ -2,13 +2,13 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "ESNext", // Updated to ESNext
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src", // Ensure this points to the src folder
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": "./src",
@@ -18,8 +18,9 @@
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*"], // Ensure this includes all files in src
   "exclude": ["node_modules", "dist"]
 }

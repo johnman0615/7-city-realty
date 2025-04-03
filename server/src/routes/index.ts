@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import authRoutes from './auth-routes';
-import apiRoutes from './api/Index.js';
-import authenticateJWT from '../middleware/authenticateJWT';
+import authRoutes from './auth-routes.js'; // Add `.js`
+import apiRoutes from './api/index.js'; // Add `.js`
+import authenticateJWT from '../middleware/authenticateJWT.js'; // Add `.js`
 
 const router = Router();
 
