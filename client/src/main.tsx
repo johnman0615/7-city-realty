@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./styles/base.css"; 
+import "./styles/shared.css";
+import "./styles/buttons.css";
+import "./styles/navbar.css"; // Ensure navbar.css is imported last
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+=======
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
@@ -50,3 +66,4 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
 }
+>>>>>>> origin/main
