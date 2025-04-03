@@ -19,7 +19,17 @@ router.get("/:id", async (req, res) => {
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
-    res.json(property);
+    
+    // Transform the data to include coordinates
+    const propertyJson = {
+      ...property.toJSON(),
+      coordinates: property.latitude && property.longitude ? {
+        lat: parseFloat(property.latitude),
+        lng: parseFloat(property.longitude)
+      } : undefined
+    };
+    
+    res.json(propertyJson);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
