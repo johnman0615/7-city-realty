@@ -1,6 +1,5 @@
-import { Outlet } from 'react-router-dom';
-
-import Navbar from './components/Navbar';
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/NavbarComponent"; // Updated to match the new file name
 
 function App() {
 

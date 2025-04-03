@@ -1,7 +1,6 @@
 import { useState } from 'react';
-<<<<<<< HEAD
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/NavbarComponent";
 
 interface SellProperty {
     id: number;
@@ -73,7 +72,6 @@ const SellPage = () => {
   );
 };
 
-=======
 import { useState } from 'react';
 
 interface SellProperty {
@@ -118,5 +116,4 @@ const SellPage = () => {
         </div>
     );
 }
->>>>>>> origin/main
 export default SellPage;

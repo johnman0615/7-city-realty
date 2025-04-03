@@ -2,8 +2,7 @@ import  { useState, useEffect, useLayoutEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Button } from "../components/ui/Buttons";
 import { Link } from "react-router-dom";
-
-import Navbar from "../components/Navbar";
+import Navbar from "../components/NavbarComponent";
 
 const properties = [
   {
