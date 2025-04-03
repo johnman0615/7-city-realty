@@ -1,18 +1,51 @@
-DS.store
-node_modules
-.env
-# Node.js dependencies
-node_modules/
 # Logs
 logs/
 *.log
-# Environment variables
-.env
-# Build files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Build output
 dist/
 build/
-# OS-specific files
-.DS_Store
+dist-ssr/
 
- DS.store
+# TypeScript build info
+*.tsbuildinfo
+
+# IDE-specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+
+# Cache and temporary files
+.cache/
+.parcel-cache/
+.temp/
+.docusaurus/
+.next/
+.nuxt/
+out/
+.nyc_output/
+coverage/
+*.tgz
+*.lock-wscript
+.yarn-integrity
+.pnp.*
+
+# Lint and formatting
+.eslintcache
+.stylelintcache
+
+# Miscellaneous
+.DS_Store
 Thumbs.db

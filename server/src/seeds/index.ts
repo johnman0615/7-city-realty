@@ -1,5 +1,5 @@
-import { seedUsers } from './user-seeds.js';
-import { sequelize } from '../config/connection.js';
+import seedUsers from './user-seeds.js'; // Use default import
+import sequelize from '../config/connection';
 
 const seedAll = async (): Promise<void> => {
   try {

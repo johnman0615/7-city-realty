@@ -1,92 +1,92 @@
-import express from 'express';
-import type { Request, Response } from 'express';
-import { User } from '../../models/Index';
-
-import express from "express";
+import express, { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import User from "../models/User";
-import { authenticateJWT } from "../../middleware/auth";
-
+import User from "../../models/User"; // Ensure you have a User model defined
+import Joi from "joi";
+import authenticateJWT from '../../middleware/authenticateJWT'; 
 
 const router = express.Router();
 
-router.post("/signup", async (req, res) => {
+// Validation schema for user registration
+const registerSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+  user_type: Joi.string().valid("buyer", "seller", "agent").required(),
+  password: Joi.string().min(6).required(),
+});
+
+// POST user registration
+router.post("/register", async (req: Request, res: Response) => {
+  const { error } = registerSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
   try {
-    const { name, email, password, user_type, phone } = req.body;
+    const { name, email, phone, user_type, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already in use" });
+    // Use Sequelize's create method
+    const user = await User.create({
+      name,
+      email,
+      phone,
+      user_type,
+      password: hashedPassword,
+    });
+
+    return res.status(201).json({ message: "User registered successfully", user });
+  } catch (err) {
+    if (err instanceof Error) {
+      return res.status(500).json({ message: err.message });
     }
+    return res.status(500).json({ message: "An unknown error occurred" });
+  }
+});
 
+router.post("/signup", async (req: Request, res: Response) => {
+  const signupSchema = Joi.object({
+    username: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+    user_type: Joi.string().valid("buyer", "seller", "agent").required(),
+  });
+
+  const { error } = signupSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
+  try {
+    const { username, email, password, user_type } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await User.create({
-      name,
+      username,
       email,
       password: hashedPassword,
-      user_type, 
-      phone,
+      user_type,
     });
 
-    res.status(201).json({ 
-      user_id: newUser.user_id, 
-      name: newUser.name, 
-      email: newUser.email, 
-      user_type: newUser.user_type 
-    }); 
+    return res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: (error as Error).message });
   }
 });
 
-router.get("/", authenticateJWT, async (req, res) => {
-  try {
-    if (req.user.user_type !== "admin") {
-      return res.status(403).json({ message: "Unauthorized" });
-    }
-
-    const users = await User.findAll({
-      attributes: ["user_id", "name", "email", "user_type", "phone"],
-    });
-
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+router.get("/", authenticateJWT, async (_req, res) => {
+  res.json({ message: "Endpoint working" });
 });
 
-router.get("/:id", authenticateJWT, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-
-    const user = await User.findByPk(id);
-    if (user) {
-      if (username) user.username = username; // Safely update username
-      if (password) user.password = password; // Safely update password
-      await user.save();
-      res.json(user);
-    } else {
-      res.status(404).json({ message: 'User not found' });
-
-    const userId = req.params.id;
-
-    if (req.user.user_id !== parseInt(userId) && req.user.user_type !== "admin") {
-      return res.status(403).json({ message: "Unauthorized" });
-
-    }
-
-    const user = await User.findOne({
-      where: { user_id: userId },
-      attributes: ["user_id", "name", "email", "user_type", "phone"],
-    });
-
+    const user = await User.findByPk(req.params.id);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: 'User not found' });
     }
-
-    res.status(200).json(user);
+    return res.json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: (error as Error).message });
   }
 });
 

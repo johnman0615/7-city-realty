@@ -15,33 +15,15 @@ const properties: Property[] = [
   { id: 3, name: "House 3", location: "Location 3", price: 300000, image: "house3.jpg" },
 ];
 
-const BuyPage = () => {
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+function BuyPage() {
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   return (
     <div>
-      <Navbar />
-      <h1>Buy a Property</h1>
-      <div>
-        <h2>Properties</h2>
-        <ul>
-          {properties.map((property) => (
-            <li key={property.id}>
-              <button onClick={() => setSelectedProperty(property)}>{property.name}</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {selectedProperty && (
-        <div>
-          <h2>{selectedProperty.name}</h2>
-          <p>Location: {selectedProperty.location}</p>
-          <p>Price: ${selectedProperty.price}</p>
-          <img src={`/assets/${selectedProperty.image}`} alt={selectedProperty.name} />
-        </div>
-      )}
+      <Navbar setSelectedCategory={setSelectedCategory} />
+      {/* Page content */}
     </div>
   );
-};
+}
 
 export default BuyPage;

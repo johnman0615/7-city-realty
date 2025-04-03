@@ -1,7 +1,8 @@
-import  { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
-import { Button } from "../components/ui/Buttons";
 import { Link } from "react-router-dom";
+import "../styles/buttons.css"; // Corrected relative path for styles
+import "@styles/home.css"; // Added styles from the second file
 import Navbar from "../components/NavbarComponent";
 
 const properties = [
@@ -11,7 +12,7 @@ const properties = [
     location: "Downtown, New York",
     price: "$2,500/month",
     description: "A beautiful apartment located in the heart of downtown. Close to all amenities.",
-    category: "Rent"
+    category: "Rent",
   },
   {
     id: 2,
@@ -19,7 +20,7 @@ const properties = [
     location: "Malibu, California",
     price: "$10,000/month",
     description: "A stunning villa with ocean views and a private pool.",
-    category: "Rent"
+    category: "Rent",
   },
   {
     id: 3,
@@ -27,7 +28,7 @@ const properties = [
     location: "Austin, Texas",
     price: "$1,800/month",
     description: "A sleek studio apartment perfect for young professionals.",
-    category: "Rent"
+    category: "Rent",
   },
   {
     id: 4,
@@ -35,7 +36,7 @@ const properties = [
     location: "Fayetteville, NC 28301",
     price: "$30,000",
     description: "Residential property located in a peaceful neighborhood. MLS# 10084390.",
-    category: "Buy"
+    category: "Buy",
   },
   {
     id: 5,
@@ -43,7 +44,7 @@ const properties = [
     location: "Fuquay Varina, NC 27526",
     price: "$329,900",
     description: "Spacious residential home with modern amenities. MLS# 10075556.",
-    category: "Buy"
+    category: "Buy",
   },
   {
     id: 6,
@@ -51,42 +52,55 @@ const properties = [
     location: "Louisburg, NC 27549",
     price: "$300,000",
     description: "Charming residential property in a serene location. MLS# 10076094.",
-    category: "Buy"
-  }
+    category: "Buy",
+  },
 ];
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Buy");
   const [filteredProperties, setFilteredProperties] = useState(properties);
 
   useEffect(() => {
-    // Perform filtering whenever searchQuery or selectedCategory changes
-    const filtered = properties.filter(property =>
-      (property.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-       property.location.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      property.category === selectedCategory
+    const filtered = properties.filter(
+      (property) =>
+        (property.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          property.location.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        property.category === selectedCategory
     );
     setFilteredProperties(filtered);
-  }, [searchQuery, selectedCategory]); // Runs whenever searchQuery or selectedCategory changes
-
-  useLayoutEffect(() => {
-    console.log("The layout effect has run.");
-  }, []); // Runs once after the DOM has been updated
+  }, [searchQuery, selectedCategory]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="home-container">
+      {/* Navbar */}
       <Navbar setSelectedCategory={setSelectedCategory} />
-=======
+
+      {/* Welcome Section */}
+      <div className="text-center mb-6">
+        <h1 className="home-title">Welcome to 7 Cities Realty</h1>
+        <a href="/buy" className="home-button">
+          Explore Properties
+        </a>
+      </div>
+
+      {/* Navigation Links */}
       <nav className="flex justify-center mb-6 space-x-6">
-        <Link to="/buy" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Buy")}>Buy</Link>
-        <Link to="/rent" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Rent")}>Rent</Link>
-        <Link to="/sell" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Sell")}>Sell</Link>
-        <Link to="/" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Buy")}>Home</Link>
+        <Link to="/buy" className="btn">
+          Buy
+        </Link>
+        <Link to="/rent" className="btn">
+          Rent
+        </Link>
+        <Link to="/sell" className="btn">
+          Sell
+        </Link>
+        <Link to="/" className="btn">
+          Home
+        </Link>
       </nav>
 
-      <h1 className="text-3xl font-bold text-center mb-6">Property Listings</h1>
-
+      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"
@@ -97,6 +111,8 @@ const HomePage = () => {
         />
       </div>
 
+      {/* Property Listings */}
+      <h1 className="text-3xl font-bold text-center mb-6">Property Listings</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProperties.map((property) => (
           <Card key={property.id} className="shadow-lg rounded-2xl">
@@ -106,7 +122,7 @@ const HomePage = () => {
               <p className="text-green-600 font-bold">{property.price}</p>
               <p className="text-gray-700 mt-2">{property.description}</p>
               <Link to={`/property/${property.id}`}>
-                <Button className="mt-4 w-full">View Details</Button>
+                <button className="btn mt-4 w-full">View Details</button>
               </Link>
             </CardContent>
           </Card>
@@ -115,6 +131,5 @@ const HomePage = () => {
     </div>
   );
 };
-
 
 export default HomePage;

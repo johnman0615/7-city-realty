@@ -1,9 +1,22 @@
-import { User } from '../models/index.js';
+import { User } from '../models/index';
 
-export const seedUsers = async () => {
-  await User.bulkCreate([
-    { username: 'JollyGuru', email: 'jolly@guru.com', password: 'password' },
-    { username: 'SunnyScribe', email: 'sunny@scribe.com', password: 'password' },
-    { username: 'RadiantComet', email: 'radiant@comet.com', password: 'password' },
-  ], { individualHooks: true });
+const userData = [
+  {
+    username: 'johndoe',
+    email: 'johndoe@example.com',
+    password: 'password123',
+    user_type: 'admin',
+  },
+  {
+    username: 'janedoe',
+    email: 'janedoe@example.com',
+    password: 'password123',
+    user_type: 'user',
+  },
+];
+
+const seedUsers = async () => {
+  await User.bulkCreate(userData, { individualHooks: true });
 };
+
+export default seedUsers;

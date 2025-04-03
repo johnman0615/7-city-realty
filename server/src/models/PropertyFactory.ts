@@ -1,7 +1,8 @@
 import { DataTypes, Sequelize, Model } from 'sequelize';
 
+
 export class Property extends Model {
-  public property_id!: number;
+  public property_id?: number;
   public description?: string;
   public price!: number;
   public address!: string;

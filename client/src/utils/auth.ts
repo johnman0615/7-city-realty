@@ -1,3 +1,5 @@
+
+
 class AuthService {
   
   // Check if the user is logged in by retrieving the token from localStorage

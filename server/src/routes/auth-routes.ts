@@ -1,48 +1,50 @@
-import { Router } from 'express';
-import bcrypt from 'bcryptjs';
+import express, { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/user';
+import User from '../models/User'; 
 import dotenv from 'dotenv';
+import { Model } from 'sequelize';
 
 dotenv.config();
 
-const router = Router();
+const router = express.Router();
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  console.error('JWT_SECRET is missing from environment variables.');
-  process.exit(1);
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
+// Define the User type
+interface UserInstance extends Model {
+  user_id: number;
+  user_type: string;
+  password: string;
 }
 
-
-router.use(express.json());
-
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+router.post("/login", async (req: Request, res: Response) => {
+  const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Cast the user to UserInstance after ensuring it's not null
+    const userInstance = user as unknown as UserInstance;
 
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+    const isPasswordValid = await bcrypt.compare(password, userInstance.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const token = jwt.sign(
-      { user_id: user.user_id, email: user.email },
+      { id: userInstance.user_id, user_type: userInstance.user_type },
       JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: "1h" }
     );
 
-    res.json({ token });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: error.message });
+    return res.json({ token });
+  } catch (err) {
+    return res.status(500).json({ message: "An error occurred during login" });
   }
 });
 

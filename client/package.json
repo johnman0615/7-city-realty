@@ -1,5 +1,5 @@
 {
-  "name": "website-realty-client",
+  "name": "7-city-home-realty-client",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -11,19 +11,20 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.4.1"
+    "classnames": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1"
   },
   "devDependencies": {
-    "@types/react": "^18.3.20",
-    "@types/react-dom": "^18.3.5",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.23.0",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "rimraf": "^4.0.1",
+    "rimraf": "^4.4.1",
     "typescript": "^5.2.2",
     "vite": "^6.2.4"
   }

@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["vite/client"],
 
     /* JavaScript Support */
     "allowJs": true,
@@ -34,15 +33,17 @@
     "useUnknownInCatchVariables": true,
 
     /* Path Mapping */
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "@shared/*": ["client/src/components/shared/*"],
-      "@utils/*": ["client/src/utils/*"],
-      "@components/*": ["client/src/components/*"],
-      "@pages/*": ["client/src/pages/*"],
-      "@styles/*": ["client/src/styles/*"]
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"]
     }
   },
-  "include": ["client/src", "server/src", "client/utils"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "src/**/*",
+    "src/global.d.ts" // Ensure this file is included
+  ],
+  "exclude": ["node_modules", "dist"]
 }

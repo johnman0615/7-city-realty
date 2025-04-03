@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import authRoutes from './auth-routes.js';
-import apiRoutes from './api/index.js';
-import { authenticateToken } from '../middleware/auth.js';
+import authRoutes from './auth-routes';
+import apiRoutes from './api/Index.js';
+import authenticateJWT from '../middleware/authenticateJWT';
 
 const router = Router();
 
 router.use('/auth', authRoutes);
-router.use('/api', authenticateToken, apiRoutes);
+router.use('/api', authenticateJWT, apiRoutes);
 
 export default router;
