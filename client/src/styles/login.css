@@ -122,38 +122,71 @@ img.logo {
 
 /* Login container styling */
 .login-container {
-  background-color: rgba(0, 0, 0, 0.9); /* Dark background for better contrast */
-  padding: 20px; /* Adjusted padding */
-  border-radius: 10px; /* Rounded corners for the box */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 300px;
-  display: flex; /* Enable flexbox */
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally */
   text-align: center;
-  color: white;
-  position: relative; /* Allows positioning of the outer border */
-  animation: fadeIn 0.5s ease-in-out;
-  overflow: hidden;
+  margin: 20px auto;
 }
 
-/* Move the credential box (form) down */
+.login-container h1 {
+  margin-bottom: 1rem;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
 .login-container form {
-  margin-top: 0px;
-  /* Add space above the form to move it down */
+  display: flex;
+  flex-direction: column;
 }
 
-/* Outer border around the login box */
-.login-container::before {
-  content: '';
-  position: absolute;
-  top: -10px; /* Space between the outer border and the box */
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  border: 2px solid white; /* Outer border */
-  border-radius: 15px; /* Rounded corners for the outer border */
-  z-index: -1; /* Place the border behind the box */
+.login-container .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.login-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.login-container input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  padding: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.login-container a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
 }
 
 body .login-container {
@@ -204,7 +237,7 @@ form {
 
 /* Additional links below the login form */
 .additional-links {
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -305,4 +338,96 @@ span.psw {
 .create-account-container form button:hover,
 .forgot-password-container form button:hover {
   background-color: #0056b3;
+}
+
+/* Page content padding */
+.page-content {
+  padding-top: 60px; /* Match the height of the navbar */
+}
+
+/* Updated login container styling */
+.login-container {
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Center the landing container */
+.landing-container {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+/* Logo inside the login container */
+.login-container .logo {
+  margin-bottom: 20px;
+}
+
+.login-container .logo img {
+  max-width: 150px; /* Adjust size of the logo */
+  height: auto;
+}
+
+/* Login form styling */
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-container .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.login-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+.additional-links {
+  margin-top: 15px;
+}
+
+.additional-links a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
 }

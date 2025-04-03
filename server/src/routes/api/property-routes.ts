@@ -1,24 +1,29 @@
-import { Router } from "express";
-import Property from "../models/Property"; // Adjust the path if necessary
-import { authenticateJWT } from "../middleware/auth";
+import express, { Request, Response } from "express";
+import Property from "../../models/Property.js"; // Add `.js`
+import authenticateJWT from "../../middleware/authenticateJWT.js"; // Add `.js`
 
-const router = Router();
+const router = express.Router();
 
-router.get("/", async (req, res) => {
+// GET all properties
+router.get("/", async (_req, res: Response) => {
   try {
     const properties = await Property.findAll();
     res.json(properties);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching properties" });
   }
 });
 
-router.get("/:id", async (req, res) => {
+// GET specific property by ID
+router.get("/:id", async (req: Request, res: Response) => {
   try {
     const property = await Property.findByPk(req.params.id);
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
+    return res.json(property);
+  } catch (err) {
+    return res.status(500).json({ message: "Error fetching property" });
     
     // Transform the data to include coordinates
     const propertyJson = {
@@ -35,7 +40,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", authenticateJWT, async (req, res) => {
+// POST new property listing
+router.post("/", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const {
       description,
@@ -48,11 +54,12 @@ router.post("/", authenticateJWT, async (req, res) => {
       bedrooms,
       bathrooms,
       square_feet,
-      agent_id, 
+      agent_id,
+      seller_id,
       status,
     } = req.body;
 
-    const newProperty = await Property.create({
+    const property = await Property.create({
       description,
       price,
       address,
@@ -63,50 +70,28 @@ router.post("/", authenticateJWT, async (req, res) => {
       bedrooms,
       bathrooms,
       square_feet,
-      agent_id: agent_id || null, 
-      seller_id: req.user.id, 
-      status: status || "available",
+      agent_id,
+      seller_id,
+      status,
     });
 
-    res.status(201).json(newProperty);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(201).json(property);
+  } catch (err) {
+    res.status(500).json({ message: "Error creating property" });
   }
 });
 
-router.put("/:id", authenticateJWT, async (req, res) => {
+// DELETE property by ID
+router.delete("/:id", authenticateJWT, async (req: Request, res: Response) => {
   try {
     const property = await Property.findByPk(req.params.id);
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
-
-    if (property.seller_id !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to edit this property" });
-    }
-
-    await property.update(req.body);
-    res.json({ message: "Property updated successfully", property });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-router.delete("/:id", authenticateJWT, async (req, res) => {
-  try {
-    const property = await Property.findByPk(req.params.id);
-    if (!property) {
-      return res.status(404).json({ message: "Property not found" });
-    }
-
-    if (property.seller_id !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to delete this property" });
-    }
-
     await property.destroy();
-    res.json({ message: "Property deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.json({ message: "Property deleted successfully" });
+  } catch (err) {
+    return res.status(500).json({ message: "Error deleting property" });
   }
 });
 

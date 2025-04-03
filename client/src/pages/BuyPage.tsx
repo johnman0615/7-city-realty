@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/NavbarComponent";
+import "../styles/navbar.css";
 
 interface Property {
   id: number;
@@ -15,12 +16,12 @@ const properties: Property[] = [
   { id: 3, name: "House 3", location: "Location 3", price: 300000, image: "house3.jpg" },
 ];
 
-const BuyPage = () => {
+const BuyPage: React.FC = () => {
   const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
 
   return (
     <div>
-      <Navbar />
+      <Navbar setSelectedCategory={() => {}} onLogout={() => {}} />
       <h1>Buy a Property</h1>
       <div>
         <h2>Properties</h2>

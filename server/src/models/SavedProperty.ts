@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/connection';
-import { Property } from './Property';
+import sequelize from '../config/connection';
+import Property from './Property'; // Use default import for Property
 
 const SavedProperty = sequelize.define('SavedProperty', {
   saved_id: {
@@ -33,4 +33,4 @@ const SavedProperty = sequelize.define('SavedProperty', {
   timestamps: false,
 });
 
-export { SavedProperty };
+export default SavedProperty;

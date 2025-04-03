@@ -1,55 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-
-
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
-
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from "./pages/LandingPage"; // Ensure this is the login page
+import HomePage from "./pages/HomePage";
+import CreateAccountPage from "./pages/CreateAccountPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ErrorPage from "./pages/ErrorPage";
+import "./styles/base.css";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App />,
+    path: "/",
+    element: <LandingPage />, // Ensure this is the login page
     errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <Home />
-      }, 
-      {
-        path: '/login',
-        element: <Login />
-      }, 
-      {
-        path: '/rent',
-        element: <RentPage />
-      },
-      {
-        path: '/buy',
-        element: <BuyPage />
-      },
-      {
-        path: '/sell',
-        element: <SellPage />
-      },
-      {
-        path: '/property/:id',
-        element: <PropertyDetail />
-      },
-    ]
-  }
-])
+  },
+  {
+    path: "/home",
+    element: <HomePage />,
+  },
+  {
+    path: "/register",
+    element: <CreateAccountPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+]);
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  );
 }

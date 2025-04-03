@@ -1,78 +1,82 @@
-import { DataTypes } from 'sequelize';
-import { sequelize } from '../config/connection'; // Ensure this points to your connection file
-import { Agent } from './Agent';
-// import { User } from './User'; // Import User model to establish the relationship
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../config/connection";
 
-const Property = sequelize.define('Property', {
-  property_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  description: {
-    type: DataTypes.TEXT,
-  },
-  price: {
-    type: DataTypes.DECIMAL(12, 2),
-    allowNull: false,
-  },
-  address: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  city: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-  },
-  state: {
-    type: DataTypes.STRING(50),
-    allowNull: false,
-  },
-  zip_code: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-  },
-  property_type: {
-    type: DataTypes.STRING(50),
-    validate: {
-      isIn: [['house', 'apartment', 'condo', 'townhouse']],
-    },
-  },
-  bedrooms: {
-    type: DataTypes.INTEGER,
-  },
-  bathrooms: {
-    type: DataTypes.INTEGER,
-  },
-  square_feet: {
-    type: DataTypes.INTEGER,
-  },
-  agent_id: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Agent,
-      key: 'agent_id',
-    },
-    onDelete: 'SET NULL',
-  },
-  seller_id: {
-    type: DataTypes.INTEGER,
-    references: {
-     // model: User,
-      key: 'user_id',
-    },
-    onDelete: 'SET NULL',
-  },
-  status: {
-    type: DataTypes.STRING(20),
-    defaultValue: 'available',
-    validate: {
-      isIn: [['available', 'sold', 'pending']],
-    },
-  },
-}, {
-  tableName: 'properties',
-  timestamps: false,
-});
+class Property extends Model {
+  public id!: number;
+  public description!: string;
+  public price!: number;
+  public address!: string;
+  public city!: string;
+  public state!: string;
+  public zip_code!: string;
+  public property_type!: string;
+  public bedrooms?: number;
+  public bathrooms?: number;
+  public square_feet?: number;
+  public agent_id?: number;
+  public seller_id?: number;
+  public status!: "available" | "sold" | "pending";
+}
 
-export { Property };
+Property.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    description: {
+      type: DataTypes.STRING,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    zip_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    property_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    bedrooms: {
+      type: DataTypes.INTEGER,
+    },
+    bathrooms: {
+      type: DataTypes.INTEGER,
+    },
+    square_feet: {
+      type: DataTypes.INTEGER,
+    },
+    agent_id: {
+      type: DataTypes.INTEGER,
+    },
+    seller_id: {
+      type: DataTypes.INTEGER,
+    },
+    status: {
+      type: DataTypes.ENUM("available", "sold", "pending"),
+      defaultValue: "available",
+    },
+  },
+  {
+    sequelize,
+    tableName: "properties",
+    timestamps: false,
+  }
+);
+
+export default Property;

@@ -1,18 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "@styles/navbar.css";
+import "../styles/navbar.css"; // Verify this path matches your project structure
 
-const Navbar = () => {
+interface NavbarProps {
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+  onLogout: () => void; // Added a prop for handling logout
+}
+
+const Navbar: React.FC<NavbarProps> = ({ setSelectedCategory, onLogout }) => {
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   return (
-    <nav className="navbar">
-      <h1>7 Cities Realty</h1>
-      <ul>
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/buy">Buy</Link></li>
-        <li><Link to="/sell">Sell</Link></li>
-        <li><Link to="/rent">Rent</Link></li>
-        <li><Link to="/agents">Agents</Link></li>
+    <nav className="navbar" aria-label="Main Navigation">
+      <h1 className="navbar-title">7 Cities Realty</h1>
+      <ul className="navbar-links">
+        {["Buy", "Sell", "Rent", "Agent"].map((category) => (
+          <li key={category}>
+            <a
+              href={`/${category.toLowerCase()}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCategoryChange(category);
+              }}
+            >
+              {category}
+            </a>
+          </li>
+        ))}
       </ul>
+      <button
+        className="logout-button"
+        onClick={onLogout}
+        aria-label="Logout"
+      >
+        Logout
+      </button>
     </nav>
   );
 };
