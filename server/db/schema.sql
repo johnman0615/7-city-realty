@@ -39,7 +39,9 @@ CREATE TABLE properties (
     square_feet INT,
     agent_id INT REFERENCES agents(agent_id) ON DELETE SET NULL,
     seller_id INT REFERENCES users(user_id) ON DELETE SET NULL,
-    status VARCHAR(20) CHECK (status IN ('available', 'sold', 'pending')) DEFAULT 'available'
+    status VARCHAR(20) CHECK (status IN ('available', 'sold', 'pending')) DEFAULT 'available',
+    latitude DECIMAL(10,8),
+    longitude DECIMAL(11,8)
 );
 
 -- Create Property Images Table
