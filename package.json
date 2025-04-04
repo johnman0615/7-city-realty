@@ -7,10 +7,12 @@
     "client"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
-    "clean": "rimraf dist && rimraf server/dist && rimraf client/dist",
-    "build": "npm run build --workspace=server && npm run build --workspace=client",
-    "type-check": "npm run type-check --workspace=server && npm run type-check --workspace=client"
+
+
+    "dev": "concurrently \"npm start --prefix client\" \"npm start --prefix server\"",
+    "build": "npm run build --prefix client && npm run build --prefix server",
+    "start": "npm run start --prefix server"
+
   },
   "devDependencies": {
     "@types/react": "^18.3.20",
