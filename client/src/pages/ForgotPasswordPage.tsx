@@ -7,7 +7,7 @@ import "@styles/login.css"; // Ensure login styles are applied
 const ForgotPassword: React.FC = () => {
   return (
     <div>
-      <Navbar setSelectedCategory={() => {}} />
+      <Navbar setSelectedCategory={() => {}} onLogout={() => { console.log('Logout clicked'); }} />
       <div className="landing-container">
         <div className="login-container">
           <div className="logo">

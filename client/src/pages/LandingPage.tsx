@@ -14,11 +14,9 @@ const LandingPage: React.FC = () => {
     e.preventDefault();
     try {
       const response = await login({ username, password });
-      console.log("Login Response:", response); // Debug the response
       localStorage.setItem("token", response.token);
       window.location.href = "/home";
-    } catch (err) {
-      console.error("Login Error:", err); // Debug the error
+    } catch {
       setError("Invalid username or password");
     }
   };

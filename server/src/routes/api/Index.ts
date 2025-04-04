@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import propertyRoutes from "./property-routes.js"; // Add `.js`
-import authenticateJWT from "../../middleware/authenticateJWT.js"; // Add `.js"
+const express = require("express");
+const propertyRoutes = require("./property-routes");
+const authenticateJWT = require("../../middleware/authenticateJWT");
 
-const router = Router();
+const router = express.Router();
 
-router.use('/properties', authenticateJWT, propertyRoutes);
+router.use("/properties", authenticateJWT, propertyRoutes);
 
-export default router;
+module.exports = router;

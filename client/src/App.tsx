@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+import {BrowserRouter as Routes, Route } from "react-router-dom";  
 import LandingPage from "./pages/LandingPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
@@ -10,18 +11,16 @@ import AgentPage from "./pages/AgentPage";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/register" element={<CreateAccountPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/buy" element={<BuyPage />} />
-        <Route path="/sell" element={<SellPage />} />
-        <Route path="/rent" element={<RentPage />} />
-        <Route path="/agent" element={<AgentPage />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/register" element={<CreateAccountPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/buy" element={<BuyPage />} />
+      <Route path="/sell" element={<SellPage />} />
+      <Route path="/rent" element={<RentPage />} />
+      <Route path="/agent" element={<AgentPage />} />
+    </Routes>
   );
 }
 

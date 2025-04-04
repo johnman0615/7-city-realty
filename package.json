@@ -2,13 +2,15 @@
   "name": "7-city-home-realty",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "workspaces": [
-    "client",
-    "server"
+    "server",
+    "client"
   ],
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "clean": "rimraf dist && rimraf server/dist && rimraf client/dist",
+    "build": "npm run build --workspace=server && npm run build --workspace=client",
+    "type-check": "npm run type-check --workspace=server && npm run type-check --workspace=client"
   },
   "devDependencies": {
     "@types/react": "^18.3.20",
@@ -23,7 +25,7 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "prettier": "^3.5.3",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.8.2",
@@ -40,8 +42,5 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.14.1"
-  },
-  "overrides": {
-    "esbuild": "^0.19.0"
   }
 }

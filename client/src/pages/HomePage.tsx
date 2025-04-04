@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="home-container">
-      <Navbar setSelectedCategory={setSelectedCategory} />
+      <Navbar setSelectedCategory={setSelectedCategory} onLogout={() => console.log("Logged out")} />
       <div className="text-center mb-6">
         <h1 className="home-title">Welcome to 7 Cities Realty</h1>
         <a href="/buy" className="home-button">

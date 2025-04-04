@@ -1,11 +1,16 @@
-import { Router } from 'express';
-import authRoutes from './auth-routes.js'; // Add `.js`
-import apiRoutes from './api/index.js'; // Add `.js`
-import authenticateJWT from '../middleware/authenticateJWT.js'; // Add `.js`
+const express = require("express");
+const authRoutes = require("./auth-routes");
+const apiRoutes = require("./api/Index");
+const authenticateJWT = require("../../middleware/authenticateJWT");
 
-const router = Router();
+const router = express.Router();
 
-router.use('/auth', authRoutes);
-router.use('/api', authenticateJWT, apiRoutes);
+router.use("/auth", authRoutes);
+router.use("/api", authenticateJWT, apiRoutes);
 
-export default router;
+// Define your routes here
+router.get("/example", authenticateJWT, (req, res) => {
+    res.send("API Example Route");
+});
+
+module.exports = router;
