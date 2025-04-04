@@ -24,6 +24,19 @@ router.get("/:id", async (req: Request, res: Response) => {
     return res.json(property);
   } catch (err) {
     return res.status(500).json({ message: "Error fetching property" });
+    
+    // Transform the data to include coordinates
+    const propertyJson = {
+      ...property.toJSON(),
+      coordinates: property.latitude && property.longitude ? {
+        lat: parseFloat(property.latitude),
+        lng: parseFloat(property.longitude)
+      } : undefined
+    };
+    
+    res.json(propertyJson);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
