@@ -289,7 +289,7 @@ const PropertyDetail: React.FC = () => {
               <h5 className="card-title mb-3">Location</h5>
               <div className="rounded overflow-hidden">
                 <MapView
-                  center={property.coordinates}
+                  center={property.coordinates || { lat: 40.7128, lng: -74.0060 }}
                   height="300px"
                 />
               </div>

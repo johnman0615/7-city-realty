@@ -1,8 +1,6 @@
 import seedUsers from './user-seeds.js'; // Use default import
 import sequelize from '../config/connection';
-import authRoutes from "./auth-routes.js"; // Add `.js`
-import apiRoutes from "./api/index.js"; // Add `.js`
-import authenticateJWT from "../middleware/authenticateJWT.js"; // Add `.js`
+
 
 const seedAll = async (): Promise<void> => {
   try {

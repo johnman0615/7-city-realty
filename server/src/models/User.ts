@@ -1,14 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/connection";
 
-class User extends Model {
-  public id!: number;
-  public name!: string;
-  public email!: string;
-  public phone!: string;
-  public user_type!: "buyer" | "seller" | "agent";
-  public password!: string;
-}
+class User extends Model {}
 
 User.init(
   {
@@ -40,7 +33,7 @@ User.init(
     },
   },
   {
-    sequelize,
+    sequelize, // Use the imported instance
     tableName: "users",
     timestamps: false,
   }
