@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "@styles/navbar.css";
+import "../styles/navbar.css"; // Make sure this path is correct for your project structure
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <h1>7 Cities Realty</h1>
+      <h1><Link to="/" style={
+        { textDecoration: "none", color: "inherit" }
+      }>7 Cities Realty</Link></h1>
       <ul>
         <li><Link to="/home">Home</Link></li>
         <li><Link to="/buy">Buy</Link></li>

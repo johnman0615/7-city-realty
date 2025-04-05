@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/connection';
-import { Property } from './Property';
+import Property from './Property';
 
 const SavedProperty = sequelize.define('SavedProperty', {
   saved_id: {

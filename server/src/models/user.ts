@@ -1,92 +1,70 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Model } from "sequelize"; 
+import { sequelize } from "../config/connection";
+import bcrypt from "bcryptjs";
 
-import { DataTypes, Sequelize } from 'sequelize';
-
-
-export class User {
-  static initModel(sequelize: Sequelize) {
-    return sequelize.define(
-      "User",
-      {
-        user_id: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        username: {
-          type: DataTypes.STRING(50),
-          unique: true,
-          allowNull: false,
-        },
-        password: {
-          type: DataTypes.STRING, // Store hashed passwords
-          allowNull: false,
-        },
-        name: {
-          type: DataTypes.STRING(100),
-          allowNull: false,
-        },
-        email: {
-          type: DataTypes.STRING(100),
-          unique: true,
-          allowNull: false,
-        },
-        phone: {
-          type: DataTypes.STRING(20),
-        },
-        user_type: {
-          type: DataTypes.STRING(20),
-          allowNull: false,
-          validate: {
-            isIn: [["buyer", "seller", "agent"]],
-          },
-        },
-      },
-      {
-        tableName: "users",
-        timestamps: false,
-      }
-    );
-  }
+// Define User attributes interface
+interface UserAttributes {
+  user_id?: number;
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+  user_type: 'buyer' | 'seller' | 'agent'; // Added user_type with specific values
 }
 
-import { DataTypes, Model } from "sequelize";
-import sequelize from "../config/connection.ts";
+// Define User model class
+class User extends Model<UserAttributes> implements UserAttributes {
+  public user_id!: number;
+  public name!: string;
+  public email!: string;
+  public username!: string;
+  public password!: string;
+  public user_type!: 'buyer' | 'seller' | 'agent';
+}
 
-import { DataTypes } from 'sequelize';
-import { sequelize } from '../connection'; // Adjust if necessary
-
-
-const User = sequelize.define('User', {
-  user_id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  name: {
-    type: DataTypes.STRING(100),
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING(100),
-    unique: true,
-    allowNull: false,
-  },
-  phone: {
-    type: DataTypes.STRING(20),
-  },
-  user_type: {
-    type: DataTypes.STRING(20),
-    allowNull: false,
-    validate: {
-      isIn: [['buyer', 'seller', 'agent']],
+// Initialize model
+User.init(
+  {
+    user_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    user_type: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      validate: {
+        isIn: [['buyer', 'seller', 'agent']],
+      },
     },
   },
-}, {
-  tableName: 'users',
-  timestamps: false, // Disable timestamps if not needed
-});
+  {
+    sequelize, // Pass the Sequelize instance
+    tableName: "users",
+    timestamps: false,
+    hooks: {
+      beforeCreate: async (user: User) => {
+        user.password = await bcrypt.hash(user.password, 10); // Hash password before saving
+      },
+    },
+  }
+);
 
 export { User };
- main
-

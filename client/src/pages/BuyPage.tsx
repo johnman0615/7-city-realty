@@ -20,7 +20,6 @@ const BuyPage = () => {
 
   return (
     <div>
-      <Navbar />
       <h1>Buy a Property</h1>
       <div>
         <h2>Properties</h2>
@@ -34,11 +33,17 @@ const BuyPage = () => {
       </div>
       {selectedProperty && (
         <div>
+
           <h2>{selectedProperty.name}</h2>
           <p>Location: {selectedProperty.location}</p>
           <p>Price: ${selectedProperty.price}</p>
-          <img src={`/assets/${selectedProperty.image}`} alt={selectedProperty.name} />
+          <img src={`/assets/${selectedProperty.image}`} alt={selectedProperty.name} 
+          style={
+            { width: "200px", height: "150px", objectFit: "cover" }
+          }
+          />
         </div>
+
       )}
     </div>
   );

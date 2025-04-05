@@ -1,5 +1,5 @@
 // Import all model factories
-import { UserFactory } from './UserFactory';
+import { User } from './user';
 import { AgentFactory } from './AgentFactory';
 import { PropertyFactory } from './PropertyFactory';
 import { SavedPropertyFactory } from './SavedPropertyFactory';
@@ -7,7 +7,6 @@ import { PropertyImageFactory } from './PropertyImageFactory';
 import { sequelize } from '../config/connection'; // Import the centralized sequelize instance
 
 // Initialize models
-const User = UserFactory(sequelize);
 const Agent = AgentFactory(sequelize);
 const Property = PropertyFactory(sequelize);
 const SavedProperty = SavedPropertyFactory(sequelize);
@@ -68,3 +67,4 @@ defineRelationships();
 
 // Export all models and the sequelize instance
 export { sequelize, User, Agent, Property, SavedProperty, PropertyImage };
+

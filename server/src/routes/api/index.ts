@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import authRoutes from './auth-routes.ts';
+import authRoutes from '../auth-routes.js';
 import propertyRoutes from './property-routes';
 import { authenticateJWT } from '../../middleware/auth.js';
 

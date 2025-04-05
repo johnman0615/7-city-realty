@@ -76,14 +76,12 @@ const HomePage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Navbar setSelectedCategory={setSelectedCategory} />
-=======
-      <nav className="flex justify-center mb-6 space-x-6">
+      {/* <nav className="flex justify-center mb-6 space-x-6">
         <Link to="/buy" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Buy")}>Buy</Link>
         <Link to="/rent" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Rent")}>Rent</Link>
         <Link to="/sell" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Sell")}>Sell</Link>
         <Link to="/" className="text-blue-500 hover:underline" onClick={() => setSelectedCategory("Buy")}>Home</Link>
-      </nav>
+      </nav> */}
 
       <h1 className="text-3xl font-bold text-center mb-6">Property Listings</h1>
 

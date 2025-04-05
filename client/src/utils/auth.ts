@@ -1,3 +1,8 @@
+import jwt from 'jsonwebtoken';
+
+const username = "defaultUsername"; // Replace with the actual username value
+const token = jwt.sign({ username }, process.env.SECRET_KEY!, { expiresIn: "1h" });
+
 class AuthService {
   
   // Check if the user is logged in by retrieving the token from localStorage

@@ -1,6 +1,7 @@
 import { Router } from "express";
-import Property from "../models/Property"; // Adjust the path if necessary
-import { authenticateJWT } from "../middleware/auth";
+import { Model, DataType } from "sequelize"; // Import Model from Sequelize
+import Property from "../../models/Property"; // Adjust the path if necessary
+import { authenticateJWT } from "../../middleware/auth"; // Adjust the path if necessary
 
 const router = Router();
 
@@ -9,7 +10,7 @@ router.get("/", async (req, res) => {
     const properties = await Property.findAll();
     res.json(properties);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error instanceof Error ? error.message : "An unknown error occurred" });
   }
 });
 
@@ -19,7 +20,6 @@ router.get("/:id", async (req, res) => {
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
-    
     // Transform the data to include coordinates
     const propertyJson = {
       ...property.toJSON(),
